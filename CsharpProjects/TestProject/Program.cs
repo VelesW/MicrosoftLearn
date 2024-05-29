@@ -1,14 +1,12 @@
-﻿string pangram = "The quick brown fox jumps over the lazy dog";
+﻿string orderStream = "B123,C234,A345,C15,B177,G3003,C235,B179";
 
-string[] words = pangram.Split(' ');
+string[] idsArray = orderStream.Split(',');
+Array.Sort(idsArray);
 
-string[] newSentence = new string[words.Length];
-
-for (int i = 0; i < words.Length; i++)
+foreach (var id in idsArray)
 {
-    char[] letters = words[i].ToCharArray();
-    Array.Reverse(letters);
-    newSentence[i] = new string(letters);
+    if (id.Length != 4)
+        Console.WriteLine($"{id}\t- Error");
+    else
+        Console.WriteLine($"{id}");
 }
-string result = String.Join(' ', newSentence);
-Console.WriteLine(result);
