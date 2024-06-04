@@ -1,12 +1,7 @@
-﻿string orderStream = "B123,C234,A345,C15,B177,G3003,C235,B179";
+﻿decimal price = 67.55m;
+decimal salePrice = 59.99m;
 
-string[] idsArray = orderStream.Split(',');
-Array.Sort(idsArray);
+string yourDiscount = String.Format("You saved {0:C2} off the regular {1:C2} price. ", (price - salePrice), price);
 
-foreach (var id in idsArray)
-{
-    if (id.Length != 4)
-        Console.WriteLine($"{id}\t- Error");
-    else
-        Console.WriteLine($"{id}");
-}
+yourDiscount += $"A discount of {((price - salePrice)/price):P2}!"; //inserted
+Console.WriteLine(yourDiscount);
