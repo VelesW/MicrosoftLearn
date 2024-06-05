@@ -1,42 +1,8 @@
-﻿string message = "(What if) I have [different symbols] but every {open symbol} needs a [matching closing symbol]?";
+﻿// string data = "12345John Smith          5000  3  ";
+// string removed = data.Remove(5, 20);
+// Console.WriteLine(removed);
 
-// The IndexOfAny() helper method requires a char array of characters. 
-// You want to look for:
-
-char[] openSymbols = { '[', '{', '(' };
-
-// You'll use a slightly different technique for iterating through 
-// the characters in the string. This time, use the closing 
-// position of the previous iteration as the starting index for the 
-//next open symbol. So, you need to initialize the closingPosition 
-// variable to zero:
-
-int closingPosition = 0;
-
-while (true)
-{
-    int openingPosition = message.IndexOfAny(openSymbols, closingPosition);
-    if (openingPosition == -1) break;
-
-    string currentSymbol = message.Substring(openingPosition, 1);
-
-    char matchingSymbol = ' ';
-    switch (currentSymbol)
-    {
-        case "(":
-            matchingSymbol = ')';
-            break;
-        case "{":
-            matchingSymbol = '}';
-            break;
-        case "[":
-            matchingSymbol = ']';
-            break;
-    } 
-
-    openingPosition += 1;
-    closingPosition = message.IndexOf(matchingSymbol, openingPosition);
-
-    int length = closingPosition - openingPosition;
-    Console.WriteLine(message.Substring(openingPosition, length));
-}
+string message = "This--is--ex-amp-le--da-ta";
+message = message.Replace("--", " ");
+message = message.Replace("-", "");
+Console.WriteLine(message);
