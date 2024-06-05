@@ -1,11 +1,42 @@
-﻿const string openingSpan = "<span>";
-const string closingSpan = "</span>";
+﻿string message = "(What if) I have [different symbols] but every {open symbol} needs a [matching closing symbol]?";
 
-string message = "What is the value <span>between the tags</span>?";
+// The IndexOfAny() helper method requires a char array of characters. 
+// You want to look for:
 
-int openingPosition = message.IndexOf(openingSpan);
-int closingPosition = message.IndexOf(closingSpan);
+char[] openSymbols = { '[', '{', '(' };
 
-openingPosition += openingSpan.Length;
-int length = closingPosition - openingPosition;
-Console.WriteLine(message.Substring(openingPosition, length));
+// You'll use a slightly different technique for iterating through 
+// the characters in the string. This time, use the closing 
+// position of the previous iteration as the starting index for the 
+//next open symbol. So, you need to initialize the closingPosition 
+// variable to zero:
+
+int closingPosition = 0;
+
+while (true)
+{
+    int openingPosition = message.IndexOfAny(openSymbols, closingPosition);
+    if (openingPosition == -1) break;
+
+    string currentSymbol = message.Substring(openingPosition, 1);
+
+    char matchingSymbol = ' ';
+    switch (currentSymbol)
+    {
+        case "(":
+            matchingSymbol = ')';
+            break;
+        case "{":
+            matchingSymbol = '}';
+            break;
+        case "[":
+            matchingSymbol = ']';
+            break;
+    } 
+
+    openingPosition += 1;
+    closingPosition = message.IndexOf(matchingSymbol, openingPosition);
+
+    int length = closingPosition - openingPosition;
+    Console.WriteLine(message.Substring(openingPosition, length));
+}
