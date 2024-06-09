@@ -1,44 +1,37 @@
-﻿string[] guestList = { "Rebecca", "Nadia", "Noor", "Jonte" };
-string[] rsvps = new string[10];
-int count = 0;
-
-void RSVP(string name, int partySize = 1, string allergies = "none", bool inviteOnly = true)
+﻿string[,] corporate =
 {
-    if (inviteOnly)
+    {"Robert", "Bavin"}, {"Simon", "Bright"},
+    {"Kim", "Sinclair"}, {"Aashrita", "Kamath"},
+    {"Sarah", "Delucchi"}, {"Sinan", "Ali"}
+};
+
+string[,] external =
+{
+    {"Vinnie", "Ashton"}, {"Cody", "Dysart"},
+    {"Shay", "Lawrence"}, {"Daren", "Valdes"}
+};
+
+string externalDomain = "hayworth.com";
+
+void DisplayEmails(string[,] name, bool iscorporate = false)
+{
+    if (iscorporate)
     {
-        bool found = false;
-        foreach (string guest in guestList)
+        for (int i = 0; i < corporate.GetLength(0); i++)
         {
-            if (guest.Equals(name))
-            {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            Console.WriteLine($"Sorry, {name} is not on the guest list");
-            return;
+            char[] nameArray = name[i, 0].Trim().ToLower().ToCharArray();
+            Console.WriteLine($"{nameArray[0]}{nameArray[1]}{name[i,1].Trim().ToLower()}@contoso.com");
         }
     }
-
-    rsvps[count] = $"Name: {name}, \tParty Size: {partySize}, \tAllergies: {allergies}";
-    count++;
-}
-
-void ShowRSVPs()
-{
-    Console.WriteLine("\nTotal RSVPs:");
-    for (int i = 0; i < count; i++)
+    else
     {
-        Console.WriteLine(rsvps[i]);
+        for (int i = 0; i < external.GetLength(0); i++)
+        {
+            char[] nameArray = name[i, 0].Trim().ToLower().ToCharArray();
+            Console.WriteLine($"{nameArray[0]}{nameArray[1]}{name[i, 1].Trim().ToLower()}@{externalDomain}");
+        }
     }
 }
 
-RSVP("Rebecca");
-RSVP("Nadia", 2, "Nuts");
-RSVP(name: "Linh", partySize: 2, inviteOnly: false);
-RSVP("Tony", allergies: "Jackfruit", inviteOnly: true);
-RSVP("Noor", 4, inviteOnly: false);
-RSVP("Jonte", 2, "Stone fruit", false);
-ShowRSVPs();
+DisplayEmails(name: corporate, iscorporate: true);
+DisplayEmails(external);
