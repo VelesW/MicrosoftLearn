@@ -1,22 +1,44 @@
-﻿double pi = 3.14159;
-PrintCircleInfo(12);
-PrintCircleInfo(24);
+﻿string[] guestList = { "Rebecca", "Nadia", "Noor", "Jonte" };
+string[] rsvps = new string[10];
+int count = 0;
 
-void PrintCircleInfo(int radius) 
+void RSVP(string name, int partySize = 1, string allergies = "none", bool inviteOnly = true)
 {
-    Console.WriteLine($"Circle with radius {radius}");
-    PrintCircleArea(radius);
-    PrintCircleCircumference(radius);
+    if (inviteOnly)
+    {
+        bool found = false;
+        foreach (string guest in guestList)
+        {
+            if (guest.Equals(name))
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Console.WriteLine($"Sorry, {name} is not on the guest list");
+            return;
+        }
+    }
+
+    rsvps[count] = $"Name: {name}, \tParty Size: {partySize}, \tAllergies: {allergies}";
+    count++;
 }
 
-void PrintCircleArea(int radius)
+void ShowRSVPs()
 {
-    double area = pi * (radius * radius);
-    Console.WriteLine($"Area = {area}");
+    Console.WriteLine("\nTotal RSVPs:");
+    for (int i = 0; i < count; i++)
+    {
+        Console.WriteLine(rsvps[i]);
+    }
 }
 
-void PrintCircleCircumference(int radius)
-{
-    double circumference = 2 * pi * radius;
-    Console.WriteLine($"Circumference = {circumference}");
-}
+RSVP("Rebecca");
+RSVP("Nadia", 2, "Nuts");
+RSVP(name: "Linh", partySize: 2, inviteOnly: false);
+RSVP("Tony", allergies: "Jackfruit", inviteOnly: true);
+RSVP("Noor", 4, inviteOnly: false);
+RSVP("Jonte", 2, "Stone fruit", false);
+ShowRSVPs();
