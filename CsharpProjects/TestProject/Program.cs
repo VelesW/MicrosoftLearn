@@ -1,43 +1,64 @@
-﻿int target = 30;
-int[] coins = new int[] {5, 5, 50, 25, 25, 10, 5};
-int[,] result = TwoCoins(coins, target);
+﻿using System.Xml.XPath;
+using Microsoft.VisualBasic;
 
-if (result.Length == 0) 
+Random random = new Random();
+
+Console.WriteLine("Would you like to play? (Y/N)");
+if (ShouldPlay())
 {
-    Console.WriteLine("No two coins make change");
-} 
-else 
+    PlayGame();
+}
+
+void PlayGame()
 {
-    Console.WriteLine("Change found at positions:");
-    for (int i = 0; i < result.GetLength(0); i++) 
+    var play = true;
+
+    while (play)
     {
-        if (result[i,0] == -1) 
-        {
-            break;
-        }
-        Console.WriteLine($"{result[i,0]},{result[i,1]}");
+        var target = GetTarget();
+        var roll = RollDice();
+
+        Console.WriteLine($"Roll a number greater than {target} to win!");
+        Console.WriteLine($"You rolled a {roll}");
+        Console.WriteLine(WinOrLose(roll, target));
+        Console.WriteLine("\nPlay again? (Y/N)");
+
+        play = ShouldPlay();
     }
 }
 
-int[,] TwoCoins(int[] coins, int target)
+bool ShouldPlay()
 {
-    int[,] result = { { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 } };
-    int count = 0;
-    for (int i = 0; i < coins.Length; i++)
+    string yesOrNo = "";
+    while (yesOrNo == "")
     {
-        for (int j = i + 1; j < coins.Length; j++)
+        string? result = Console.ReadLine();
+        if (result != null)
         {
-            if (coins[i] + coins[j] == target)
-            {
-                result[count, 0] = i;
-                result[count, 1] = j;
-                count++;
-            }
-            if (count == result.GetLength(0))
-            {
-                return result;
-            }
+            yesOrNo = result.ToLower();
+            if (yesOrNo == "y" || yesOrNo == "yes")
+                return true;
+            else if (yesOrNo == "n" || yesOrNo == "no")
+                return false;
+            else
+                yesOrNo = "";
         }
     }
-    return (count == 0) ? new int[0,0] : result;
+    return false;
+}
+
+string WinOrLose(int roll, int target)
+{
+    return (roll > target) ? "You win!" : "You lose!";
+}
+
+
+int GetTarget() 
+{
+    return random.Next(1, 6);
+}
+
+int RollDice() 
+{
+    return random.Next(1, 7);
 }
