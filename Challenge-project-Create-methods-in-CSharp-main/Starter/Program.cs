@@ -27,7 +27,7 @@ int food = 0;
 InitializeGame();
 while (!shouldExit) 
 {
-    Move(true);
+    Move(nonDirectional: true);
     TerminateOnResize();
 }
 
@@ -110,6 +110,12 @@ void Move(bool nonDirectional=false)
     // Draw the player at the new location
     Console.SetCursorPosition(playerX, playerY);
     Console.Write(player);
+
+    if (IsFoodConsumed())
+    {
+        ShowFood();
+        player = states[food];
+    }
 }
 
 // Clears the console, displays the food and player
@@ -127,6 +133,13 @@ void TerminateOnResize()
     {
         Console.Clear();
         Console.WriteLine("Console was resized. Program exiting.");
-        System.Environment.Exit(-1);
+        shouldExit = true;
     }  
 }
+
+bool IsFoodConsumed()
+{
+    return playerX == foodX && playerY == foodY;
+}
+
+
